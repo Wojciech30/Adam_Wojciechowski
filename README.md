@@ -69,4 +69,4 @@ Num of iterations: 9
 ```
 
 The same system solution in Mathcad 15.0:
-![Alt text](https://github.com/helena128/Iterative-method/commit/6315d8f5964f0e1a9e405a2ca1a169311a632e7b)
+![alt text](https://github.com/helena128/Iterative-method/blob/master/img.png)
