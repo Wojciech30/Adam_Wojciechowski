@@ -7,71 +7,38 @@ Example:
 
 ```
 Choose the option:
-
 1.Enter from keyboard
-
 2.Read from file
-
 3.Random numbers
-
 1
-
 Enter the number of variables:
-
 5
-
 Enter the matrix:
-
 10
-
 3
-
 2
-
 0
-
 1
-
 12
-
 1.5
-
 6
-
 0
-
 2
-
 -15
-
 34
-
 0.75
-
 1.1
-
 -5.5
-
 0
-
 0
-
 50
-
 0
-
 6
-
 2
-
 0
-
 -0.8
-
 -30
-
 -1
-
 2
 3
 -15.4
