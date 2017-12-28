@@ -41,6 +41,7 @@ namespace Lab1_VychMat_Console
 
             switch (answer)
             {
+		// Input from keyboard
                 case 1:
                     Console.WriteLine("Enter the number of variables: ");
                     size = CheckSize(2,MAXSIZE);
@@ -48,13 +49,13 @@ namespace Lab1_VychMat_Console
                     Console.WriteLine("Enter the matrix: ");
                     matrix = InputMatrix(size);
                     OutputMatrix(matrix, size);
-                    //Console.ReadKey();
 
                     Console.WriteLine("Enter the value of precision: ");
                     precision = GetPrecision();
                     Console.WriteLine("Precision: " + precision);
                     break;
 
+		// Input from file
                 case 2:
                     Console.WriteLine("Enter the name of the file/directory");
                     string fname = Console.ReadLine();
@@ -79,6 +80,7 @@ namespace Lab1_VychMat_Console
                     matrix = ReadMatrixFromFile(fname, size);// 
                     OutputMatrix(matrix, size);
                     break;
+		// Random numbers generator
                 case 3:
                     Console.WriteLine("Enter the number of variables: ");
                     Random r = new Random();
@@ -90,7 +92,7 @@ namespace Lab1_VychMat_Console
 
             }
 
-            bool iterable = IsDiag(matrix, size);   //проверяем на диагональное преобладание 
+            bool iterable = IsDiag(matrix, size);   // check for diagonal 
             if (iterable == false)
             {
                 Console.WriteLine("not of the diagonal view");
@@ -100,7 +102,7 @@ namespace Lab1_VychMat_Console
 
             IterationResult res = new IterationResult();
             res = Iteration(size, matrix, precision);
-            for(int i=0; i< size; i++)
+            for(int i = 0; i < size; i++)
             {
                 Console.WriteLine("X{0} = {1}\t +- \t{2}",i, res.x[i].ToString("N5"), res.err[i].ToString("N10"));
                 
@@ -110,6 +112,7 @@ namespace Lab1_VychMat_Console
 
         }
 
+	// handling mistake in the name of file
         static string MistakeInStr()
         {
             Console.WriteLine("File doesn't exist. Enter another value (y/n)");
@@ -132,7 +135,7 @@ namespace Lab1_VychMat_Console
                     break;
             }
             return corrected;
-        }//REDO
+        }
 
         static double[,] TryDiag(double[,] oldMatr, int size)
         {
@@ -142,7 +145,7 @@ namespace Lab1_VychMat_Console
 
             Great gr;
             bool oneNotEqual = false;
-            //ищем максимальный элемент в каждой строке
+            // searching for max value in each row
             for (int i = 0; i < size; i++)
             {
                 gr=FindGreatest(oldMatr, size, i);
@@ -151,7 +154,6 @@ namespace Lab1_VychMat_Console
                 {
                     oneNotEqual = gr.notEqual;
                 };
-                //Console.WriteLine("Greatest in line #{0} == {1}", i, max[i]);
             }
 
             bool possibToDiag=PossibToDiag(max);
@@ -163,9 +165,9 @@ namespace Lab1_VychMat_Console
             }
             else
             {
-                for(int i=0; i< size; i++)
+                for(int i = 0; i < size; i++)
                 {
-                    for (int j=0; j<size+1; j++)
+                    for (int j = 0; j < size + 1; j++)
                     {
                         newMatr[max[i], j] = oldMatr[i, j];
                     }
@@ -176,11 +178,12 @@ namespace Lab1_VychMat_Console
             return newMatr;
         }
 
+	// check if it can be cast to diagonal
         static bool PossibToDiag(int[] a)
         {
            
             bool res=false;
-            for (int i=0; i<a.Length ; i++)
+            for (int i = 0; i < a.Length ; i++)
             {
                 if (a[i] != -1)
                 {
@@ -221,7 +224,7 @@ namespace Lab1_VychMat_Console
         static Great FindGreatest(double[,] matr, int size, int i_row)
         {
             Great find;
-            find.notEqual = false;// хотя бы один элемент больше
+            find.notEqual = false; // at least 1 element is greater
             double sum = Math.Abs(matr[i_row, 0]);
             find.j_max = 0;
             for (int j = 1; j < size; ++j)
@@ -244,7 +247,7 @@ namespace Lab1_VychMat_Console
             
             return find;
         }
-        // запоминаем индекс максимального числа в строке
+        // get the index of the max number
 
         static double PrecFromFile(string filename)
         {
@@ -252,9 +255,8 @@ namespace Lab1_VychMat_Console
             using (StreamReader reader = new StreamReader(filename))
             {
                 line1 = reader.ReadLine();
-                //Console.WriteLine("FirstLine" + line1); debugging
             }
-            //string line1 = File.ReadLines(filename).Take(0).First(); // gets the first line from file.
+
             double res = 0;
             try
             {
@@ -266,7 +268,7 @@ namespace Lab1_VychMat_Console
             }
             
             return res;
-        }   //считываем точность матрицы из файла (первая строка)
+        }   // get precision from file (1st line)
 
         static double MistakeInPecFromFile()
         {
@@ -312,7 +314,7 @@ namespace Lab1_VychMat_Console
             } while (mistake == true);
 
             return prec;
-        }//TODO impossible to convert to double
+        }
 
         static int CountLinesInFile(string f)
         {
@@ -346,9 +348,9 @@ namespace Lab1_VychMat_Console
             }
             
             return result;
-        }//считываем матрицу из файла
+        } // get matrix from file
 
-        static double[,] RandomNums(int s)//REDO
+        static double[,] RandomNums(int s)
         {
             double[,] matrix = new double[s, s+1];
             Random random = new Random();
@@ -360,7 +362,7 @@ namespace Lab1_VychMat_Console
                 }
             }
             return matrix;
-        }   //задаем матрицу случайных коэффициентов
+        }   // matrix of random coefficients
 
         struct IterationResult
         {
@@ -370,19 +372,20 @@ namespace Lab1_VychMat_Console
            
         }
 
-        static IterationResult Iteration(int size, double[,] matrix /*, double[] prevMatrix*/, double precision)
+	// Iteration method
+        static IterationResult Iteration(int size, double[,] matrix, double precision)
         {
             IterationResult tmp;
 
-            double[] last = new double[size]; //столбец неизвестных предыдущей итерации
-            double[] now = new double[size]; //стоблец неизвестных текущей итерации
-            double[] err = new double[size]; //столбец погрешностей
+            double[] last = new double[size]; // column of last iteration
+            double[] now = new double[size]; // column of current iteration
+            double[] err = new double[size]; // precision column
             tmp.iter = 0;
             while (true)
             {
-                tmp.iter++; //итерация +1
+                tmp.iter++; // interation + 1
               
-                for (int i = 0; i < size; i++) //подсчет нового столбца неизвестных
+                for (int i = 0; i < size; i++) // new column of coeff
                 {
                     double x = matrix[i, size];
                     for (int j = 0; j < size; j++)
@@ -392,14 +395,14 @@ namespace Lab1_VychMat_Console
                     now[i] =x / matrix[i, i];
                 }
 
-                double ac = double.MinValue; //для определения достижения заданной точности
-                for (int i = 0; i < size; i++)  //подсчет столбца погрешностей
+                double ac = double.MinValue; // precision check
+                for (int i = 0; i < size; i++)  // get precision column
                 {
-                    err[i] = Math.Abs(now[i] - last[i]); //заполняем столбец погрешностей
+                    err[i] = Math.Abs(now[i] - last[i]); // prec column
                     if (err[i] > ac) ac = err[i];
                 }
 
-                if (ac < precision ) break; // по достижению введенной пользователем точности
+                if (ac < precision ) break; // if precision reached
 
                 for (int i = 0; i < size; i++)
                 {
@@ -410,8 +413,9 @@ namespace Lab1_VychMat_Console
             tmp.err = err;
 
             return tmp;
-        }//сама итерация
+        }
     
+	// Check matrix size
         static int CheckSize(int min, int max)
         {
             int nSize = 0;
@@ -431,7 +435,7 @@ namespace Lab1_VychMat_Console
                         }
                     }
                 }
-                while (mistake == true);//TODO
+                while (mistake == true);
             }
             catch (FormatException)
             {
@@ -439,28 +443,26 @@ namespace Lab1_VychMat_Console
                 bool mistake = false;
                 do
                 {
-                    //if (nSize < 1 || nSize > 20)
-                    //{
-                        mistake = true;
-                        int corrected = MistakeInInt(0,max);
-                        if (corrected > min && corrected < max+1)
-                        {
-                            nSize = corrected;
-                            mistake = false;
+                    mistake = true;
+                    int corrected = MistakeInInt(0,max);
+                    if (corrected > min && corrected < max+1)
+                    {
+                        nSize = corrected;
+                        mistake = false;
                         }
-                    //}
                 }
                 while (mistake == true);
             } 
             return nSize;
-        }   //считывание размера матрицы и проверка возвращаемого значения
+        } 
 
+	// get input from keybard
         static double[,] InputMatrix(int size)
         {
             double[,] matrix = new double[size, size+1];
             for (int i = 0; i < size; i++)
             {
-                for (int j = 0; j < size+1; j++)
+                for (int j = 0; j < size + 1; j++)
                 {
                     bool mistake = true;
                     do
@@ -479,23 +481,22 @@ namespace Lab1_VychMat_Console
                 }
             }
             return matrix;
-        }   //ввод матрицы
+        }  
 
+	// display matrix
         static void OutputMatrix(double[,] matrix, int size) {
             Console.WriteLine("Matrix");
             for (int i = 0; i < size; i++)
             {
-                //Console.Write("{0}) ", i);
-                
                 for (int j = 0; j < size+1; j++)
                 {
-                    //Console.WriteLine("Element({0},{1})={2}", i, j, matrix[i, j]);
                     Console.Write("{0} ", matrix[i, j]);
                 }
                 Console.WriteLine();
             }
-        }   //вывод матрицы на экран
+        }  
 
+	// handling the mistake in the Int value
         static int MistakeInInt(int min, int max)
         {
             int correctedNum = 0;
@@ -531,7 +532,7 @@ namespace Lab1_VychMat_Console
             {
                 return -1;
             }
-        }   //обработка ошибки целочисленного числа
+        }
 
         static double GetPrecision()
         {
@@ -558,7 +559,7 @@ namespace Lab1_VychMat_Console
                         break;
                     }
                 }
-                while (mistake == true);//TODO
+                while (mistake == true);
             }
             catch (FormatException)
             {
@@ -581,8 +582,9 @@ namespace Lab1_VychMat_Console
                 while (mistake == true);
             }
             return res;
-        }   //ввод и проверка адекватности сего действия по отношению к точности вычисления
+        }  
 
+	// handing mistake in double
         static double MistakeInDouble(double min, double max)
         {
             double correctedNum = 0;
@@ -612,8 +614,9 @@ namespace Lab1_VychMat_Console
             {
                 return -1;
             }
-        }   //обработка ошибки числа типа double
+        }
 
+	// check if matrix is diagonal
         static bool IsDiag(double[,] iterableMatrix, int size)
         {
             bool testIter = false;
@@ -640,7 +643,7 @@ namespace Lab1_VychMat_Console
 
             }
             return testIter;
-        }   //проверка на диагональное преобладание
+        }
 
     }
 }
