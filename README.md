@@ -69,4 +69,5 @@ Num of iterations: 9
 ```
 
 The same system solution in Mathcad 15.0:
+
 ![alt text](https://github.com/helena128/Iterative-method/blob/master/img.png)
