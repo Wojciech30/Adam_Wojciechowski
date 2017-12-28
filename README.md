@@ -5,7 +5,7 @@ Input: from keyboard, (existing) file or radnom numbers.
 
 Example:
 
----
+``
 Choose the option:
 
 1.Enter from keyboard
@@ -125,7 +125,7 @@ X3 = -2.46346    +-     0.0000000211
 X4 = -3.15610    +-     0.0000012098
 
 Num of iterations: 9
----
+``
 
 The same system solution in Mathcad 15.0:
 ![Alt text](./img.png?raw=true "Mathcad solution")
